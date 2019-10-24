@@ -1,10 +1,11 @@
-import {Router} from 'express'
+import { Router } from 'express';
 
-const routes = new Router()
+// Controllers
+import UserController from './app/controllers/UserController';
 
-// 
-routes.get('/', (req, res) => {
-  res.send({ok: 'okas'})
-})
+const routes = new Router();
 
-export default routes
+// User
+routes.post('/users', UserController.store);
+
+export default routes;
