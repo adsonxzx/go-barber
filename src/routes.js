@@ -24,8 +24,7 @@ routes.use(auth);
  * Private Routes
  */
 
-routes.get('/teste', (req, res) => {
-  return res.json({ ok: 'ok' });
-});
+// User
+routes.put('/users', UserController.update);
 
 export default routes;
