@@ -12,7 +12,7 @@ class ScheduleController {
     const isProvider = await User.findOne({
       where: { id: req.userId, provider: true },
     });
-    console.log(req.userId);
+
     if (!isProvider) {
       return res
         .status(401)
