@@ -7,6 +7,6 @@ export default {
     pass: 'a57d8e7744dd4e',
   },
   default: {
-    from: '',
+    from: 'Equipe GoBarber <noreplay@gobarber.com>',
   },
 };

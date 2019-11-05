@@ -2,11 +2,11 @@ import * as Yup from 'yup';
 import { startOfHour, isBefore, parseISO, format, subHours } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
-import nodemailer from 'nodemailer'
 import Appointment from '../models/Appointment';
 import User from '../models/User';
 import File from '../models/File';
 import Notification from '../schemas/Notification';
+import Mail from '../../lib/Mail';
 
 class AppointmentController {
   async index(req, res) {
@@ -130,7 +130,20 @@ class AppointmentController {
    * Cancelamento de Agendamento
    */
   async delete(req, res) {
-    const appointment = await Appointment.findByPk(req.params.id);
+    const appointment = await Appointment.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     if (req.userId !== appointment.user_id) {
       return res.status(401).json({
@@ -154,6 +167,19 @@ class AppointmentController {
     /**
      * Send email warning about canceled appontment
      */
+
+    await Mail.sendMail({
+      to: `${appointment.provider.name} <${appointment.provider.email}>`,
+      subject: 'Agendamento Cancelado',
+      template: 'cancellation',
+      context: {
+        provider: appointment.provider.name,
+        user: appointment.user.name,
+        date: format(appointment.date, "'dia' dd 'de' MMMM', às' H:mm'h'", {
+          locale: pt,
+        }),
+      },
+    });
 
     return res.json(appointment);
   }
