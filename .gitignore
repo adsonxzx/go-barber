@@ -4,3 +4,4 @@ yarn.lock
 src/config/database.js
 anotations.md
 tmp
+.env

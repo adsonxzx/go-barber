@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
-    "date-fns": "^2.6.0",
+    "cors": "^2.8.5",
+    "date-fns": "^2.0.0-beta.5",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "handlebars": "^4.5.1",
